@@ -1,0 +1,20 @@
+--- How to compile ---
+
+command:  $ make
+To generate the executable file "hw3" in "HW3/bin/"
+
+command:  $ make clean
+To remove the executable file in "HW3/bin/"
+
+
+--- How to run ---
+
+In this directory , enter the following command:
+command:  ../bin/<exe> <hardblock file> <net file> <pl file> <output file> dead_space_ratio
+e.g. : 
+$ ../bin/hw3 ../testcases/n100.hardblocks ../testcases/n100.nets ../testcases/n100.pl ../output/n100.floorplan 0.1
+
+In "HW3/bin/" , enter the following command:
+command:  ./<exe> <hardblock file> <net file> <pl file> <output file> dead_space_ratio
+e.g. :
+$ ./hw3 ../testcases/n100.hardblocks ../testcases/n100.nets ../testcases/n100.pl ../output/n100.floorplan 0.1
