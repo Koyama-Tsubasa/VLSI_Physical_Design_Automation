@@ -1,0 +1,20 @@
+--- How to compile ---
+
+command:  $ make
+To generate the executable file "hw2" in "HW2/bin/"
+
+command:  $ make clean
+To remove the executable file in "HW2/bin/"
+
+
+--- How to run ---
+
+In this directory , enter the following command:
+command:  ../bin/<exe> <net file> <cell file> <output file>
+e.g. : 
+$ ../bin/hw2 ../testcases/p2-1.nets ../testcases/p2-1.cells ../output/p2-1.out
+
+In "HW2/bin/" , enter the following command:
+command:  ./<exe> <net file> <cell file> <output file>
+e.g. :
+$ ./hw2 ../testcases/p2-1.nets ../testcases/p2-1.cells ../output/p2-1.out
