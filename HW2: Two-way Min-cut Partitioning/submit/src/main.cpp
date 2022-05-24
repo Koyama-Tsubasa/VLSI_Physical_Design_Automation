@@ -9,7 +9,7 @@
 using namespace std;
 
 
-//???? Cell structure 
+//　Cell structure 
 class Cell {
 	public:
 		int cell_id;
@@ -18,7 +18,7 @@ class Cell {
 		vector<int> net_in_this_cell;
 };
 
-//???? net structure
+// Net structure
 class Net {
 	public:
 		int net_id;
@@ -28,7 +28,7 @@ class Net {
 		vector<int> cell_in_this_net;
 }; 
 
-//???d balance ??? 
+// check balance 
 int check_balance(int a , int all) {
 	
 	if ( abs(2*a-all)>=float(all)/10 ) return -1;
@@ -36,7 +36,7 @@ int check_balance(int a , int all) {
 	
 }
 
-//?p??cut size
+// calculate cut size
 int CUT_SIZE(vector<Net> n) {
 	
 	int cs = 0;
@@ -66,17 +66,15 @@ int main(int argc , char *argv[]) {
 	ofstream output(argv[3]); //set output file
 	
 	
-  auto t_begin = chrono::steady_clock::now();
+  	auto t_begin = chrono::steady_clock::now();
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//???? cell ¡N? data structure 
+	// read cell data
 
-	vector<Cell> cell_by_given; //?s?ªÉ?cell by given order
-	map<int,int> cell_in_order; //cell id to given order ?????
-	map<int,int> cell_locked; //cell ?O?_ locked 
+	vector<Cell> cell_by_given; // cell by given order
+	map<int,int> cell_in_order; // cell id to given order
+	map<int,int> cell_locked; // cell which_ locked 
 	
-	//????cell ?? data 
-	
-	int cell_num = 0; //cell ?`???q
+	int cell_num = 0; //cell number
 	int max_cell_num = 0; //cell max id
 	
 	while ( getline(File_C,read_data) ) {
@@ -104,9 +102,9 @@ int main(int argc , char *argv[]) {
 	
 	
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//????net ?? data 
+	// read net data 
 	
-	vector<Net> NET;//?s net data 
+	vector<Net> NET; // net data 
 	int pins = 0 , len , net_num = 0;
 	i = 1;
 	
@@ -124,7 +122,7 @@ int main(int argc , char *argv[]) {
 				
 				read_data = read_data.substr(read_data.find("c")+1);
 				N.cell_in_this_net.push_back( stoi( read_data.substr(0,read_data.find(" ")) ) );
-        cid = cell_in_order.find( stoi( read_data.substr(0,read_data.find(" ")) ) )->second;
+        			cid = cell_in_order.find( stoi( read_data.substr(0,read_data.find(" ")) ) )->second;
 				N.net_weight += cell_by_given[cid].cell_weight;
 				cell_by_given[cid].net_in_this_cell.push_back(i);
 				cell_by_given[cid].pins++;
@@ -156,17 +154,16 @@ int main(int argc , char *argv[]) {
 //		
 //		cout<<"\nNet: "<<NET[i].net_id<<endl;
 //		cout<<NET[i].cell_in_this_net.size()<<endl;
-//    cout<<NET[i].net_weight<<endl;
+//    		cout<<NET[i].net_weight<<endl;
 //		for (j=0;j<NET[i].cell_in_this_net.size();j++) cout<<NET[i].cell_in_this_net[j]<<" ";
 //		
 //	} 
 //	cout<<endl;
-  auto t_end = chrono::steady_clock::now();
-  auto io_time = chrono::duration_cast<chrono::microseconds>(t_end-t_begin).count();	
+  	auto t_end = chrono::steady_clock::now();
+  	auto io_time = chrono::duration_cast<chrono::microseconds>(t_end-t_begin).count();	
   
-  t_begin = chrono::steady_clock::now();
+  	t_begin = chrono::steady_clock::now();
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//??cell ¡N??? A,B sets by nets ( ???H net ?øA?[?i A set , ?W?L?`???q¡N@?b???¯oA?ºà?¡NU cell ?[?i B set )
 	
 	map<int,char> partition_set;
 	int A_weight = 0;
@@ -183,7 +180,7 @@ int main(int argc , char *argv[]) {
 				if ( partition_set.find(NET[i].cell_in_this_net[j])==partition_set.end() ) {
 				
             				partition_set[NET[i].cell_in_this_net[j]] = 'A';
-					          A_cell_num++;
+				  	A_cell_num++;
             				A_weight += cell_by_given[cell_in_order.find(NET[i].cell_in_this_net[j])->second].cell_weight;
             
         			}
@@ -237,16 +234,15 @@ int main(int argc , char *argv[]) {
 
 	
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//?ßN?l gain ??
 	//cout<<"gain"<<endl;
 	map<int,vector<int>> Blist_A; //A set ?? bucket list 
 	map<int,vector<int>> Blist_A_pre; //??pre gain ????
-  map<int,vector<int>> Blist_B; //B set ?? bucket list
-  map<int,vector<int>> Blist_B_pre; //??pre gain ????
+  	map<int,vector<int>> Blist_B; //B set ?? bucket list
+  	map<int,vector<int>> Blist_B_pre; //??pre gain ????
 	map<int,vector<int>>::iterator iter;
 	vector<int>::iterator found;
 	
-  //?????U?? bucket list
+  // bucket list
 	for (i=(-1)*max_pin_num;i<=max_pin_num;i++)	{
 		
 		Blist_A[i];
@@ -256,7 +252,7 @@ int main(int argc , char *argv[]) {
 		
 	}
  
-  int cell_gain;
+  	int cell_gain;
 	int max_gain_A = (-1)*max_pin_num; //max gain in set A
 	int max_gain_B = (-1)*max_pin_num; //max gain in set B
 	int F; //from block to cell
@@ -265,7 +261,7 @@ int main(int argc , char *argv[]) {
 	int ALL_gain[max_cell_num]; //?s???? cell ?? gain ??
 	int ALL_gain_after[max_cell_num]; //?s???? cell ?þvs??¡N??ÞÕ? gain ??
  
-  //gain array ?k 0
+  // gain array
 	for (i=0;i<max_cell_num;i++) {
 		
 		ALL_gain[i] = 0;
@@ -274,7 +270,7 @@ int main(int argc , char *argv[]) {
 	}
 //	cout<<float(clock())*0.001<<" seconds"<<endl;
 	
-	//pre_gain ( 1st: only check for bucket list A )
+	// pre_gain ( 1st: only check for bucket list A )
 	for (i=0;i<cell_num;i++) {
 
 		if ( partition_set.find(cell_by_given[i].cell_id)->second=='A' ) which_cell = 0;
@@ -292,7 +288,7 @@ int main(int argc , char *argv[]) {
 			
       /*--------------------------------------------------------
 	      F <- the front block of cell i
-        T <- the to block of cell i
+              T <- the to block of cell i
 	      --------------------------------------------------------*/
 			if ( which_cell==0 ) {
 				
@@ -309,7 +305,7 @@ int main(int argc , char *argv[]) {
 			
       /*--------------------------------------------------------
 	      if F(n) = 1 then g(i) <- g(i) + 1
-        if T(n) = 0 then g(i) <- g(i) - 1
+              if T(n) = 0 then g(i) <- g(i) - 1
 	      --------------------------------------------------------*/
 			if ( F==1 ) cell_gain++;
 			if ( T==0 ) cell_gain--;
@@ -331,7 +327,7 @@ int main(int argc , char *argv[]) {
 		if ( Blist_A_pre.find(i)->second.size()!=0 )
 			for (j=0;j<Blist_A_pre.find(i)->second.size();j++) {
       
-        cid = cell_in_order.find( Blist_A_pre.find(i)->second[j] )->second;
+        			cid = cell_in_order.find( Blist_A_pre.find(i)->second[j] )->second;
 				
 				if ( check_balance(A_weight-cell_by_given[cid].cell_weight,total_weight)!=-1 ) {
 					
@@ -344,14 +340,14 @@ int main(int argc , char *argv[]) {
 					}
 					A_weight -= cell_by_given[cid].cell_weight;
 					B_weight += cell_by_given[cid].cell_weight;
-          A_cell_num--;
-          B_cell_num++;
+					A_cell_num--;
+					B_cell_num++;
 					
 				}
 				
 			}
       
-  }
+  	}
 	max_gain_A = (-1)*max_pin_num;
 //	cout<<float(clock())*0.001<<" seconds"<<endl;
 
@@ -373,7 +369,7 @@ int main(int argc , char *argv[]) {
 			
       /*--------------------------------------------------------
 	      F <- the front block of cell i
-        T <- the to block of cell i
+              T <- the to block of cell i
 	      --------------------------------------------------------*/
 			if ( which_cell==0 ) {
 				
@@ -390,7 +386,7 @@ int main(int argc , char *argv[]) {
 			
       /*--------------------------------------------------------
 	      if F(n) = 1 then g(i) <- g(i) + 1
-        if T(n) = 0 then g(i) <- g(i) - 1
+              if T(n) = 0 then g(i) <- g(i) - 1
 	      --------------------------------------------------------*/
 			if ( F==1 ) cell_gain++;
 			if ( T==0 ) cell_gain--;
@@ -412,7 +408,7 @@ int main(int argc , char *argv[]) {
 		if ( Blist_B_pre.find(i)->second.size()!=0 )
 			for (j=0;j<Blist_B_pre.find(i)->second.size();j++) {
       
-        cid = cell_in_order.find( Blist_B_pre.find(i)->second[j] )->second;
+        			cid = cell_in_order.find( Blist_B_pre.find(i)->second[j] )->second;
 				
 				if ( check_balance(A_weight+cell_by_given[cid].cell_weight,total_weight)!=-1 ) {
 					
@@ -425,14 +421,14 @@ int main(int argc , char *argv[]) {
 					}
 					A_weight += cell_by_given[cid].cell_weight;
 					B_weight -= cell_by_given[cid].cell_weight;
-          B_cell_num--;
-          A_cell_num++;
+					B_cell_num--;
+					A_cell_num++;
 					
 				}
 				
 			}
       
-  }
+ 	}
 	max_gain_B = (-1)*max_pin_num;
 //	cout<<float(clock())*0.001<<" seconds"<<endl;
 
@@ -454,7 +450,7 @@ int main(int argc , char *argv[]) {
 			
       /*--------------------------------------------------------
 	      F <- the front block of cell i
-        T <- the to block of cell i
+              T <- the to block of cell i
 	      --------------------------------------------------------*/
 			if ( which_cell==0 ) {
 				
@@ -471,7 +467,7 @@ int main(int argc , char *argv[]) {
 		
       /*--------------------------------------------------------
 	      if F(n) = 1 then g(i) <- g(i) + 1
-        if T(n) = 0 then g(i) <- g(i) - 1
+              if T(n) = 0 then g(i) <- g(i) - 1
 	      --------------------------------------------------------*/
 			if ( F==1 ) {
 				
@@ -507,7 +503,7 @@ int main(int argc , char *argv[]) {
  
 	
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//???d balance ( before FM algorithm )
+	// check balance ( before FM algorithm )
 	
 	if ( check_balance(A_weight,total_weight)==(-1) ) {
 		
@@ -522,12 +518,11 @@ int main(int argc , char *argv[]) {
 
 
   /*----------------------------------------------------------------------------------------------------------------*/ 
-  //?s¡N@?}?l?? result ??T , ???K¡N@?}?l?N?O best result
 	final_cutsize = CUT_SIZE(NET);
 	result_set = partition_set;
 	FACM = A_cell_num;
 	FBCM = B_cell_num;	
-  cout<<"Initial cut size : "<<final_cutsize<<endl;
+  	cout<<"Initial cut size : "<<final_cutsize<<endl;
 //	cout<<float(clock())*0.001<<" seconds"<<endl;
 	
  
@@ -538,7 +533,6 @@ int main(int argc , char *argv[]) {
 	map<int,int> cell_which_to_update; //?s gain ?????Q???L?? cell
 	map<int,int>::iterator update;
 	
-  //?w?]?????? cell ?]¡N@?????h?[¡N@?? if ?n?h???? cell gain <= 0 ??????????
 	for (int i=0;i<cell_num;i++) {
 		//cout<<"FM : "<<i+1<<endl;
 		again_after_changing_gain:
@@ -546,13 +540,11 @@ int main(int argc , char *argv[]) {
 		cell_which_to_update.clear(); //clear cell which to update
 		flag = 1;
 		
-		//??n?????? cell 
 		if ( max_gain_A >= max_gain_B ) {
 			
 			which_cell = 0;
 			iter = Blist_A.find(max_gain_A);
 			
-      //?d????¡N@?? cell in Bucket list's max gain ???X balance ?b?
 			for (j=0;j<iter->second.size();j++) 
 				if ( check_balance(A_weight-cell_by_given[ cell_in_order.find( iter->second[j] )->second ].cell_weight,
 						total_weight)!=-1 ) {
@@ -562,7 +554,6 @@ int main(int argc , char *argv[]) {
 					
 				}
 			
-      //if ¡NW???????q?S?Ó¬?h??¡NU¡N@??¡Nj?? gain ????
 			if ( flag==1 ) {
 				
 				max_gain_A--;
@@ -584,7 +575,6 @@ int main(int argc , char *argv[]) {
 			which_cell = 1;
 			iter = Blist_B.find(max_gain_B);
 				
-      //?d????¡N@?? cell in Bucket list's max gain ???X balance ?b?
 			for (j=0;j<iter->second.size();j++) 
 				if ( check_balance(A_weight+cell_by_given[ cell_in_order.find( iter->second[j] )->second ].cell_weight,
 					total_weight)!=-1 ) {
@@ -594,7 +584,6 @@ int main(int argc , char *argv[]) {
 					
 				}
 			
-      //if ¡NW???????q?S?Ó¬?h??¡NU¡N@??¡Nj?? gain ????
 			if ( flag==1 ) {
 				
 				max_gain_B--;
@@ -612,11 +601,11 @@ int main(int argc , char *argv[]) {
 			
 		}
 		
-    if ( ALL_gain[iter->second[j]-1]<=0 ) break; //if this cell's gain <= 0 then end this program
+    		if ( ALL_gain[iter->second[j]-1]<=0 ) break; //if this cell's gain <= 0 then end this program
 		else sum += ALL_gain[iter->second[j]-1]; //add to partial sum
-		id = j; //?s?o?? cell ?b bucket list gain ?o¡N@?Â×??X?? cell ( 0 ~ ... )
-		based_cell = iter->second[id]; //?s?? cell id
-		moved_weight = cell_by_given[ cell_in_order.find( iter->second[id] )->second ].cell_weight; //?s?? cell weight
+		id = j;
+		based_cell = iter->second[id];
+		moved_weight = cell_by_given[ cell_in_order.find( iter->second[id] )->second ].cell_weight; 
 //		cout<<"choose cell :"<<float(clock())*0.001<<" seconds"<<endl;
 		
 		//Update cell gains
@@ -636,17 +625,17 @@ int main(int argc , char *argv[]) {
 			/*--------------------------------------------------------
 		  	  F <- the Front Block of the base cell
 		  	  T <- the To Block of the base cell
-		      --------------------------------------------------------*/
-      if ( which_cell==0 ) {
+		      	--------------------------------------------------------*/
+     			if ( which_cell==0 ) {
 		    	
-	    	F += NET[nid-1].A_set;
-	    	T += NET[nid-1].B_set;
+				F += NET[nid-1].A_set;
+				T += NET[nid-1].B_set;
 		    	
-	    }
-	    else {
+	    		}
+	    		else {
 				
-		    F += NET[nid-1].B_set;
-	      T += NET[nid-1].A_set; 
+		    		F += NET[nid-1].B_set;
+	      			T += NET[nid-1].A_set; 
 				
 			}
 			
@@ -654,15 +643,15 @@ int main(int argc , char *argv[]) {
 			/*--------------------------------------------------------
 		  	  if T(n) = 0 then increment gains of all free cells on n
 		  	  elseif T(n) = 1 then decrement gain of the only T cell on n, if it is free
-		      --------------------------------------------------------*/
-      if ( T==0 ) {
+		      	--------------------------------------------------------*/
+      			if ( T==0 ) {
 		    	
-    	  for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
+    	  			for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
 		    		
-    		  ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]++;
- 		      cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second++;
+    		  			ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]++;
+ 		      			cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second++;
 		    	
-        }
+        			}
 		    	
 			}
 			else if ( T==1 ) {
@@ -671,24 +660,24 @@ int main(int argc , char *argv[]) {
 					
 					for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
 		    		
-		    			if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='B' ) {
-		    				
-		    				ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]--;
-		    				cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second--;
-		    				
-						  }
+						if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='B' ) {
+
+							ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]--;
+							cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second--;
+
+						}
 			    	
-			     }
+			     		}
 					
 				}
 				else {
 					
 					for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
 		    		
-		    			if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='A' ) {
+		    				if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='A' ) {
 		    				
-		    				ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]--;
-		    				cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second--;
+							ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]--;
+							cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second--;
 		    				
 						}
 			    	
@@ -701,10 +690,10 @@ int main(int argc , char *argv[]) {
 			/*--------------------------------------------------------
 		  	  F(n) <- F(n) - 1
 		  	  T(n) <- T(n) + 1
-	      --------------------------------------------------------*/
-      F--;
-      T++;
-      if ( which_cell==0 ) {
+	      		--------------------------------------------------------*/
+		        F--;
+		        T++;
+      			if ( which_cell==0 ) {
 				
 				NET[nid-1].A_set--;
 				NET[nid-1].B_set++;
@@ -717,17 +706,17 @@ int main(int argc , char *argv[]) {
 				
 			}
 		    
-      //after move
-      /*--------------------------------------------------------
-  	    if F(n) = 0 then decrement gains of all free cells on n
-	  	  elseif F(n) = 1 then increment gain of the only F cell on n, if it is free
-        --------------------------------------------------------*/
-      if ( F==0 ) {
+      			//after move
+      			/*--------------------------------------------------------
+  	    		if F(n) = 0 then decrement gains of all free cells on n
+	  	  	elseif F(n) = 1 then increment gain of the only F cell on n, if it is free
+        		--------------------------------------------------------*/
+      			if ( F==0 ) {
 		    	
-		    	for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
+		    		for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
 		    		
-		    		ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]--;
-		    		cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second--;
+					ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]--;
+					cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second--;
 		    	
 				}
 		    	
@@ -738,10 +727,10 @@ int main(int argc , char *argv[]) {
 					
 					for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
 		    		
-		    			if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='A' ) {
+		    				if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='A' ) {
 		    				
-		    				ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]++;
-		    				cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second++;
+							ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]++;
+							cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second++;
 		    				
 						}
 						
@@ -752,10 +741,10 @@ int main(int argc , char *argv[]) {
 					
 					for (k=0;k<NET[nid-1].cell_in_this_net.size();k++) {
 		    		
-		    			if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='B' ) {
+		    				if ( partition_set.find( NET[nid-1].cell_in_this_net[k] )->second=='B' ) {
 		    				
-		    				ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]++;
-		    				cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second++;
+							ALL_gain_after[NET[nid-1].cell_in_this_net[k]-1]++;
+							cell_which_to_update.find( NET[nid-1].cell_in_this_net[k] )->second++;
 		    				
 						}
 			    	
@@ -800,7 +789,7 @@ int main(int argc , char *argv[]) {
 						
 				}
         
-        ALL_gain[cid-1] = ALL_gain_after[cid-1];
+        			ALL_gain[cid-1] = ALL_gain_after[cid-1];
 				
 			}
 			
@@ -828,7 +817,6 @@ int main(int argc , char *argv[]) {
 		}
 		///cout<<"move :"<<float(clock())*0.001<<" seconds"<<endl;
 		
-		//?þvs max gain in A,B set
 		max_gain_A = (-1)*max_pin_num;
 		max_gain_B = (-1)*max_pin_num;
 		for (j=max_pin_num;j>=(-1)*max_pin_num;j--) {
@@ -853,7 +841,7 @@ int main(int argc , char *argv[]) {
 		}
 		//cout<<"gain :"<<float(clock())*0.001<<" seconds"<<endl;
 		
-    //if partial sum > current maximum partial sum then update maximum partial sum
+    		// if partial sum > current maximum partial sum then update maximum partial sum
 		if ( sum>=max_sum ) {
 			//cout<<"updating"<<endl;
 			if ( sum>max_sum ) {
@@ -904,8 +892,8 @@ int main(int argc , char *argv[]) {
 //		cout<<float(clock())*0.001<<" seconds"<<endl;
 	
 	}
-  t_end = chrono::steady_clock::now();
-  auto com_time = chrono::duration_cast<chrono::microseconds>(t_end-t_begin).count();
+  	t_end = chrono::steady_clock::now();
+  	auto com_time = chrono::duration_cast<chrono::microseconds>(t_end-t_begin).count();
  
 	//output result
 	output<<"cut_size "<<final_cutsize<<"\n\n";
@@ -916,7 +904,7 @@ int main(int argc , char *argv[]) {
 	for (i=1;i<=max_cell_num;i++)
 		if ( result_set.find(i)->second=='B' ) output<<"c"<<i<<endl;
 	cout<<"io time : "<<io_time<<" microseconds"<<endl;
-  cout<<"computation time : "<<com_time<<" microseconds"<<endl;
+  	cout<<"computation time : "<<com_time<<" microseconds"<<endl;
 	
 	return 0;
 	
