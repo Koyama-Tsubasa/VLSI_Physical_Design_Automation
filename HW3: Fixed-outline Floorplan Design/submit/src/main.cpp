@@ -9,7 +9,6 @@
 #include<chrono>
 using namespace std;
 
-/*-----     change some conditions to find magic number ( first change the probability in purturbation )_____11/25     -----*/
 
 // hardblocks
 class Block {
@@ -21,7 +20,7 @@ class Block {
 		int x;
 		int y;
 		int rotate = 0;
-		
+
 		Block* parent = NULL;
 		Block* l_child = NULL;
 		Block* r_child = NULL; 
@@ -351,8 +350,8 @@ void calculate_xy() {
 		for ( j=t_x;j<t_x+to_x->width;j++ ) if ( contour[j]>max_y ) max_y = contour[j];
 		for ( j=t_x;j<t_x+to_x->width;j++ ) contour[j] = max_y + to_x->height;
 		t_x += to_x->width;
-    if ( t_x>max_x ) max_x = t_x;
-		to_x->y = max_y;
+		if ( t_x>max_x ) max_x = t_x;
+			to_x->y = max_y;
 		
 	}
 	
@@ -620,15 +619,15 @@ void SA() {
 //		cout<<final_x<<" "<<final_y<<" "<<temperature<<endl;
 		temperature *= cooling;
    
-    	if ( pre_x==final_x and pre_y==final_y and float(rand()%100)<temperature/1000 ) {
+    		if ( pre_x==final_x and pre_y==final_y and float(rand()%100)<temperature/1000 ) {
     		
-      		tree_perturbation();
+      			tree_perturbation();
 			calculate_xy();
 			HPWL();
 			cal_cost();
-      		store_result();
+      			store_result();
     
-    	}
+    		}
    
 	}
 	t3 = chrono::steady_clock::now();
