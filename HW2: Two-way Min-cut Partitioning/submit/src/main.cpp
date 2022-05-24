@@ -8,6 +8,7 @@
 #include<chrono>
 using namespace std;
 
+
 //???? Cell structure 
 class Cell {
 	public:
@@ -67,9 +68,9 @@ int main(int argc , char *argv[]) {
 	
   auto t_begin = chrono::steady_clock::now();
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//???? cell ¡N? data structure 
+	//???? cell Â¡N? data structure 
 
-	vector<Cell> cell_by_given; //?s?ªÉ?cell by given order
+	vector<Cell> cell_by_given; //?s?ÂªÃ‰?cell by given order
 	map<int,int> cell_in_order; //cell id to given order ?????
 	map<int,int> cell_locked; //cell ?O?_ locked 
 	
@@ -165,7 +166,7 @@ int main(int argc , char *argv[]) {
   
   t_begin = chrono::steady_clock::now();
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//??cell ¡N??? A,B sets by nets ( ???H net ?øA?[?i A set , ?W?L?`???q¡N@?b???¯oA?ºà?¡NU cell ?[?i B set )
+	//??cell Â¡N??? A,B sets by nets ( ???H net ?Ã¸A?[?i A set , ?W?L?`???qÂ¡N@?b???Â¯oA?ÂºÃ ?Â¡NU cell ?[?i B set )
 	
 	map<int,char> partition_set;
 	int A_weight = 0;
@@ -236,7 +237,7 @@ int main(int argc , char *argv[]) {
 
 	
 	/*----------------------------------------------------------------------------------------------------------------*/
-	//?ßN?l gain ??
+	//?ÃŸN?l gain ??
 	//cout<<"gain"<<endl;
 	map<int,vector<int>> Blist_A; //A set ?? bucket list 
 	map<int,vector<int>> Blist_A_pre; //??pre gain ????
@@ -260,9 +261,9 @@ int main(int argc , char *argv[]) {
 	int max_gain_B = (-1)*max_pin_num; //max gain in set B
 	int F; //from block to cell
 	int T; //the to block of cell
-	int which_cell;	//?P?O?? cell ?b??¡N@?? set , 0-A , 1-B
+	int which_cell;	//?P?O?? cell ?b??Â¡N@?? set , 0-A , 1-B
 	int ALL_gain[max_cell_num]; //?s???? cell ?? gain ??
-	int ALL_gain_after[max_cell_num]; //?s???? cell ?þvs??¡N??ÞÕ? gain ??
+	int ALL_gain_after[max_cell_num]; //?s???? cell ?Ã¾vs??Â¡N??ÃžÃ•? gain ??
  
   //gain array ?k 0
 	for (i=0;i<max_cell_num;i++) {
@@ -521,7 +522,7 @@ int main(int argc , char *argv[]) {
 
 
   /*----------------------------------------------------------------------------------------------------------------*/ 
-  //?s¡N@?}?l?? result ??T , ???K¡N@?}?l?N?O best result
+  //?sÂ¡N@?}?l?? result ??T , ???KÂ¡N@?}?l?N?O best result
 	final_cutsize = CUT_SIZE(NET);
 	result_set = partition_set;
 	FACM = A_cell_num;
@@ -537,7 +538,7 @@ int main(int argc , char *argv[]) {
 	map<int,int> cell_which_to_update; //?s gain ?????Q???L?? cell
 	map<int,int>::iterator update;
 	
-  //?w?]?????? cell ?]¡N@?????h?[¡N@?? if ?n?h???? cell gain <= 0 ??????????
+  //?w?]?????? cell ?]Â¡N@?????h?[Â¡N@?? if ?n?h???? cell gain <= 0 ??????????
 	for (int i=0;i<cell_num;i++) {
 		//cout<<"FM : "<<i+1<<endl;
 		again_after_changing_gain:
@@ -551,7 +552,7 @@ int main(int argc , char *argv[]) {
 			which_cell = 0;
 			iter = Blist_A.find(max_gain_A);
 			
-      //?d????¡N@?? cell in Bucket list's max gain ???X balance ?“b?
+      //?d????Â¡N@?? cell in Bucket list's max gain ???X balance ?Â“b?
 			for (j=0;j<iter->second.size();j++) 
 				if ( check_balance(A_weight-cell_by_given[ cell_in_order.find( iter->second[j] )->second ].cell_weight,
 						total_weight)!=-1 ) {
@@ -561,7 +562,7 @@ int main(int argc , char *argv[]) {
 					
 				}
 			
-      //if ¡NW???????q?S?Ó¬?h??¡NU¡N@??¡Nj?? gain ????
+      //if Â¡NW???????q?S?Ã“Â¬?h??Â¡NUÂ¡N@??Â¡Nj?? gain ????
 			if ( flag==1 ) {
 				
 				max_gain_A--;
@@ -583,7 +584,7 @@ int main(int argc , char *argv[]) {
 			which_cell = 1;
 			iter = Blist_B.find(max_gain_B);
 				
-      //?d????¡N@?? cell in Bucket list's max gain ???X balance ?“b?
+      //?d????Â¡N@?? cell in Bucket list's max gain ???X balance ?Â“b?
 			for (j=0;j<iter->second.size();j++) 
 				if ( check_balance(A_weight+cell_by_given[ cell_in_order.find( iter->second[j] )->second ].cell_weight,
 					total_weight)!=-1 ) {
@@ -593,7 +594,7 @@ int main(int argc , char *argv[]) {
 					
 				}
 			
-      //if ¡NW???????q?S?Ó¬?h??¡NU¡N@??¡Nj?? gain ????
+      //if Â¡NW???????q?S?Ã“Â¬?h??Â¡NUÂ¡N@??Â¡Nj?? gain ????
 			if ( flag==1 ) {
 				
 				max_gain_B--;
@@ -613,7 +614,7 @@ int main(int argc , char *argv[]) {
 		
     if ( ALL_gain[iter->second[j]-1]<=0 ) break; //if this cell's gain <= 0 then end this program
 		else sum += ALL_gain[iter->second[j]-1]; //add to partial sum
-		id = j; //?s?o?? cell ?b bucket list gain ?o¡N@?Â×??X?? cell ( 0 ~ ... )
+		id = j; //?s?o?? cell ?b bucket list gain ?oÂ¡N@?Ã‚Ã—??X?? cell ( 0 ~ ... )
 		based_cell = iter->second[id]; //?s?? cell id
 		moved_weight = cell_by_given[ cell_in_order.find( iter->second[id] )->second ].cell_weight; //?s?? cell weight
 //		cout<<"choose cell :"<<float(clock())*0.001<<" seconds"<<endl;
@@ -827,7 +828,7 @@ int main(int argc , char *argv[]) {
 		}
 		///cout<<"move :"<<float(clock())*0.001<<" seconds"<<endl;
 		
-		//?þvs max gain in A,B set
+		//?Ã¾vs max gain in A,B set
 		max_gain_A = (-1)*max_pin_num;
 		max_gain_B = (-1)*max_pin_num;
 		for (j=max_pin_num;j>=(-1)*max_pin_num;j--) {
