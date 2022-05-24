@@ -1,4 +1,4 @@
-# VLSI Physical-Design-Automation
+# VLSI Physical Design Automation
 
 ## Introduction
 
